@@ -1,4 +1,5 @@
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
 import { Routes, Route, Navigate, useParams, useNavigate } from "react-router-dom";
 import { MovieList, AddMovie } from './MovieList';
@@ -7,6 +8,8 @@ import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { BasicForm } from './BasicForm';
+import Login from './auth/Login';
+import Signup from './auth/Signup';
 function App() {
   const INITIAL_MOVIE_LIST = [+
 
@@ -85,12 +88,16 @@ function App() {
           <Button color="inherit" onClick={() => navigate("/")}>Home</Button>
           <Button color="inherit" onClick={() => navigate("/movies")}>Movies List</Button>
           <Button color="inherit" onClick={() => navigate("/movies/add")}>Add Movies</Button>
+          <Button color="inherit" style={{marginLeft:"auto"}} onClick={() => navigate("/login")}>Login</Button>
+          <Button color="inherit" onClick={() => navigate("/signup")}>Sign up</Button>
         </Toolbar>
       </AppBar>
 
       <section className="route-container">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/movies" element={<MovieList movieList={movieList} setMovieList={setMovieList} />} />
           <Route path="/movies/:id" element={<MovieDetails movieList={movieList} />} />
           <Route path="/basic-form" element={<BasicForm />} />
