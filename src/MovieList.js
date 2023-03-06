@@ -4,7 +4,20 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
 
-export function MovieList({ movieList, setMovieList }) {
+export function MovieList() {
+
+  const [movieList, setMovieList] = useState([]);
+  // const {isLoggedIn}=useContext(CommonContext);
+  try{
+    fetch("http://localhost:9000/movies",{
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },}).then((data)=>data.json()).then((mvs)=>setMovieList(mvs));
+  }catch(err){
+        console.error(err);
+  }
+
   return (
     <div>
      <div className="movie-list">

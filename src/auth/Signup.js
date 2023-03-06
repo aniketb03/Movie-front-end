@@ -1,75 +1,78 @@
 import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import { API } from '../global';
 import "./Signup.css";
   function Signup() {
     const navigate=useNavigate();
 
-    const [registerInput,setregisterInput]=useState({
-      Username:"",
-      Email:"",
-      Password:""
+    const [registerInput,setRegisterInput]=useState({
+      username:"",
+      email:"",
+      password:""
   });
 
   const handleInput=(e)=>{
-    setregisterInput({...registerInput,[e.target.name]:e.target.value})
+    setRegisterInput({...registerInput,[e.target.name]:e.target.value})
   }
+
 
   const registerSubmit=(e)=>{
-    e.preventDefault();
-    try{
-      const data ={
-        Username:registerInput.Username,
-        Email:registerInput.Email,
-        Password:registerInput.Password
-            }
 
-            fetch(`${API}/users/signup`,{
-              method: 'POST',
-              crossDomain:true,
-              headers: {"Content-Type":"application/json", },
-            body:JSON.stringify(data),
-          }).then((res)=>{
-            if(res.status=="200"){
-              alert("Registration Success")
-              navigate("/login")
-            }
-          })
-    }catch(err){
-      alert("Message:",err.message)
+    e.preventDefault();
+
+    const data={
+      username:registerInput.username,
+      email:registerInput.email,
+      password:registerInput.password
     }
-  }
-  
+    console.log(data);
+    fetch(`http://localhost:9000/users/signup`,{
+      method: 'POST',
+      crossDomain:true,
+      headers: {
+        "Content-Type":"application/json", 
+       },
+      body :JSON.stringify(data),
+    }).then((res)=>{
+      if(res.status===200){
+        alert("Registration Success")
+        navigate("/login")
+      }
+    })
+  }  
 
          return (
-           <Form onSubmit={registerSubmit}>
-               <div className='container'>   
-               <Form.Group className="mb-3" controlId="formBasicEmail">
-               <Form.Label>Username</Form.Label>
-               <Form.Control type="text" name='Username' placeholder="Enter Username" onChange={handleInput} value={registerInput.Username} />
-               </Form.Group>
-               <Form.Group className="mb-3" controlId="formBasicEmail">
-               <Form.Label>Email address</Form.Label>
-               <Form.Control type="email" name='Email' placeholder="Enter email" onChange={handleInput} value={registerInput.Email} />
-               <Form.Text className="text-muted">
-                 We'll never share your email with anyone else.
-               </Form.Text>
-             </Form.Group>
-             <Form.Group className="mb-3" controlId="formBasicPassword">
-               <Form.Label>Password</Form.Label>
-               <Form.Control type="password" name='Password' placeholder="Password" onChange={handleInput} value={registerInput.Password}/>
-             </Form.Group>
-             <Form.Group className="mb-3" controlId="formBasicCheckbox">
-               <Form.Check type="checkbox" label="Check me out" />
-             </Form.Group>
-             <Button variant="primary" type="submit">
-               Submit
-             </Button>
-               </div>
+          <>
+            <div className='auth'>
+              <div className='auth-container'>
+                  <div className='sign-up body'></div>
+                    <h1>User's Registration</h1>
+                    <form onSubmit={registerSubmit}>
+                      <div className="input-field">
+                        <p>Username</p> 
+                        <input name='username' type="text" placeholder="Username" onChange={handleInput} style={{padding:"3px"}} />
+                      </div>
+
+                      <div className="input-field">
+                        <p>Email</p> 
+                        <input name='email' type="Email" placeholder="Email" onChange={handleInput} style={{padding:"3px"}} />
+                      </div>
+
+                      <div className="input-field">
+                        <p>Password</p> 
+                        <input name='password' type="password" placeholder="Password" onChange={handleInput} style={{padding:"3px"}} />
+                      </div>
+
+                      <button>
+                        Register
+                      </button>
+                    </form>
+                  </div>
+              </div>
             
-           </Form>
+            
+
+          </>
          );
        }
        
