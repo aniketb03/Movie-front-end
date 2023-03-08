@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { Movie } from "./Movie";
-import CommonContext from "./context/commonContext";
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import IconButton from "@mui/material/IconButton";

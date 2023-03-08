@@ -1,7 +1,8 @@
 import "./Login.css";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API } from "../global";
+import CommonContext from "../context/commonContext";
 function Login() {
   const navigate = useNavigate();
 
@@ -13,6 +14,8 @@ function Login() {
   const handleInput = (e) => {
     setRegisterInput({ ...registerInput, [e.target.name]: e.target.value });
   };
+
+  const { isLoggedIn, SetIsLoggedIn } = useContext(CommonContext);
 
   const registerSubmit = (e) => {
     e.preventDefault();
@@ -36,6 +39,8 @@ function Login() {
             console.log(inv.message);
             localStorage.setItem("x-auth-token", inv.token);
             localStorage.setItem("id", inv.id);
+            localStorage.setItem("user", inv.user);
+            SetIsLoggedIn(true);
             navigate("/");
           } else {
             console.log(inv.message);
@@ -45,7 +50,9 @@ function Login() {
       console.log(err);
     }
   };
-  return (
+  return isLoggedIn ? (
+    navigate("/")
+  ) : (
     <>
       <div className="auth">
         <div className="auth-container">

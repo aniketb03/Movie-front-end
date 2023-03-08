@@ -1,6 +1,6 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-// import { useState } from 'react';
+import { useState } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { MovieList } from "./MovieList";
 import AppBar from "@mui/material/AppBar";
@@ -12,6 +12,7 @@ import Signup from "./auth/Signup";
 import { MovieDetails } from "./MovieDetails";
 import { EditMovie } from "./EditMovie";
 import { AddMovie } from "./AddMovie";
+import CommonContext from "./context/commonContext";
 function App() {
   // const INITIAL_MOVIE_LIST = [+
 
@@ -82,6 +83,20 @@ function App() {
   // ];
   // const [movieList, setMovieList] = useState(INITIAL_MOVIE_LIST);
   const navigate = useNavigate();
+
+  const [isLoggedIn, SetIsLoggedIn] = useState(localStorage.getItem("token"));
+
+  const clearFun = () => {
+    if (isLoggedIn) {
+      localStorage.removeItem("x-auth-token");
+      localStorage.removeItem("id");
+      localStorage.removeItem("username");
+      SetIsLoggedIn(false);
+      navigate("/login");
+    } else {
+      navigate("/login");
+    }
+  };
   return (
     <div className="App">
       <AppBar position="static">
@@ -95,33 +110,41 @@ function App() {
           <Button color="inherit" onClick={() => navigate("/movies/add")}>
             Add Movies
           </Button>
-          <Button
-            color="inherit"
-            style={{ marginLeft: "auto" }}
-            onClick={() => navigate("/login")}
-          >
-            Login
-          </Button>
-          <Button color="inherit" onClick={() => navigate("/signup")}>
-            Sign up
-          </Button>
+          <Button style={{marginLeft:"auto"}}>DARKMODE</Button>
+          {isLoggedIn == true ?  <Button  color="inherit"  onClick={clearFun}>Logout</Button>:
+             <Button
+             color="inherit"
+             onClick={() => navigate("/login")}
+           > Login </Button>
+          
+          }
+
+          {isLoggedIn == true ? (
+            <Button color="inherit" >{localStorage.getItem("user")}</Button>
+          ) : (
+            <Button color="inherit" onClick={() => navigate("/signup")}>
+              Sign up
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
 
       <section className="route-container">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/movies" element={<MovieList />} />
-          <Route path="/movies/:id" element={<MovieDetails />} />
-          <Route path="/basic-form" element={<BasicForm />} />
-          <Route path="/movies/edit/:id" element={<EditMovie />} />
-          <Route path="/movies/add" element={<AddMovie />} />
-          <Route path="/films" element={<Navigate replace to="/movies" />} />
-          <Route path="/404" element={<NotFound />} />
-          <Route path="*" element={<Navigate replace to="/404" />} />
-        </Routes>
+        <CommonContext.Provider value={{ isLoggedIn, SetIsLoggedIn }}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/movies" element={<MovieList />} />
+            <Route path="/movies/:id" element={<MovieDetails />} />
+            <Route path="/basic-form" element={<BasicForm />} />
+            <Route path="/movies/edit/:id" element={<EditMovie />} />
+            <Route path="/movies/add" element={<AddMovie />} />
+            <Route path="/films" element={<Navigate replace to="/movies" />} />
+            <Route path="/404" element={<NotFound />} />
+            <Route path="*" element={<Navigate replace to="/404" />} />
+          </Routes>
+        </CommonContext.Provider>
       </section>
       {/* <MovieList movielist={movielist} setMovieList={setMovieList}/> */}
     </div>
