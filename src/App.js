@@ -1,15 +1,17 @@
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState } from 'react';
-import { Routes, Route, Navigate, useParams, useNavigate } from "react-router-dom";
-import { MovieList, AddMovie } from './MovieList';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Button from '@mui/material/Button';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { BasicForm } from './BasicForm';
-import Login from './auth/Login';
-import Signup from './auth/Signup';
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+// import { useState } from 'react';
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { MovieList } from "./MovieList";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Button from "@mui/material/Button";
+import { BasicForm } from "./BasicForm";
+import Login from "./auth/Login";
+import Signup from "./auth/Signup";
+import { MovieDetails } from "./MovieDetails";
+import { EditMovie } from "./EditMovie";
+import { AddMovie } from "./AddMovie";
 function App() {
   // const INITIAL_MOVIE_LIST = [+
 
@@ -82,14 +84,27 @@ function App() {
   const navigate = useNavigate();
   return (
     <div className="App">
-
       <AppBar position="static">
         <Toolbar>
-          <Button color="inherit" onClick={() => navigate("/")}>Home</Button>
-          <Button color="inherit" onClick={() => navigate("/movies")}>Movies List</Button>
-          <Button color="inherit" onClick={() => navigate("/movies/add")}>Add Movies</Button>
-          <Button color="inherit" style={{marginLeft:"auto"}} onClick={() => navigate("/login")}>Login</Button>
-          <Button color="inherit" onClick={() => navigate("/signup")}>Sign up</Button>
+          <Button color="inherit" onClick={() => navigate("/")}>
+            Home
+          </Button>
+          <Button color="inherit" onClick={() => navigate("/movies")}>
+            Movies List
+          </Button>
+          <Button color="inherit" onClick={() => navigate("/movies/add")}>
+            Add Movies
+          </Button>
+          <Button
+            color="inherit"
+            style={{ marginLeft: "auto" }}
+            onClick={() => navigate("/login")}
+          >
+            Login
+          </Button>
+          <Button color="inherit" onClick={() => navigate("/signup")}>
+            Sign up
+          </Button>
         </Toolbar>
       </AppBar>
 
@@ -98,9 +113,10 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/movies" element={<MovieList  />} />
-          <Route path="/movies/:id" element={<MovieDetails  />} />
+          <Route path="/movies" element={<MovieList />} />
+          <Route path="/movies/:id" element={<MovieDetails />} />
           <Route path="/basic-form" element={<BasicForm />} />
+          <Route path="/movies/edit/:id" element={<EditMovie />} />
           <Route path="/movies/add" element={<AddMovie />} />
           <Route path="/films" element={<Navigate replace to="/movies" />} />
           <Route path="/404" element={<NotFound />} />
@@ -110,38 +126,6 @@ function App() {
       {/* <MovieList movielist={movielist} setMovieList={setMovieList}/> */}
     </div>
   );
-}
-function MovieDetails({ movieList }) {
-  const { id } = useParams();
-  console.log({ id });
-  const movie = movieList[id];
-  const styles = { color: movie.rating > 7.9 ? "green" : "red" };
-
-  const navigate = useNavigate();
-
-  return (
-    <div>
-      <iframe width="100%"
-        height="650"
-        src={movie.trailer}
-        title="Marvel's The Avengers- Trailer (OFFICIAL)"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe>
-      <div className="movie-detail-container">
-        <div className="movie-specs">
-          <h2 className="movie-name">{movie.name}</h2>
-          <p style={styles} className="movie-rating">⭐{movie.rating}
-          </p>
-        </div>
-        <p className="movie-summary">{movie.summary}</p>
-        <Button onClick={() => navigate(-1)} startIcon={<ArrowBackIosIcon />}>Back</Button>
-      </div>
-    </div>
-
-  );
-
 }
 function NotFound() {
   return (
@@ -154,14 +138,6 @@ function NotFound() {
     </div>
   );
 }
-
-
-
-
-
-
-
-
 
 function Home() {
   return <h1>My Name Is Aniket</h1>;
