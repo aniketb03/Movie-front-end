@@ -39,7 +39,7 @@ function Login() {
             console.log(inv.message);
             localStorage.setItem("x-auth-token", inv.token);
             localStorage.setItem("id", inv.id);
-            localStorage.setItem("user", inv.user);
+            localStorage.setItem("user", inv.username);
             SetIsLoggedIn(true);
             navigate("/");
           } else {

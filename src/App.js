@@ -111,7 +111,7 @@ function App() {
             Add Movies
           </Button>
           <Button style={{marginLeft:"auto"}}>DARKMODE</Button>
-          {isLoggedIn == true ?  <Button  color="inherit"  onClick={clearFun}>Logout</Button>:
+          {/* {isLoggedIn == true ?  <Button  color="inherit"  onClick={clearFun}>Logout</Button>:
              <Button
              color="inherit"
              onClick={() => navigate("/login")}
@@ -124,9 +124,22 @@ function App() {
           ) : (
             <Button color="inherit" onClick={() => navigate("/signup")}>
               Sign up
-            </Button>
-          )}
-        </Toolbar>
+            </Button>)} */}
+
+            { isLoggedIn==true?<div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+              {localStorage.getItem("user")}
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li><button class="dropdown-item" onClick={clearFun}>Logout</button></li>
+            </ul>
+          </div>  : <div>
+            <Button color="inherit" onClick={()=>navigate("/login")}>Login</Button>
+            <Button color="inherit" onClick={()=>navigate("/Sign up")}>Signup</Button>
+            </div>}
+
+             
+          </Toolbar>
       </AppBar>
 
       <section className="route-container">
