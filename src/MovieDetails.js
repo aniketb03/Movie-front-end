@@ -11,7 +11,13 @@ export function MovieDetails({}) {
   const [movie,setMovie]=useState({});
 
   const getMovies=()=>{
-    fetch(`${API}/movies/${id}`)
+    fetch(`${API}/movies/${id}`,{
+      method: "GET",
+      headers: {
+        "x-auth-token":localStorage.getItem("x-auth-token"),
+        "Content-Type": "application/json",
+      },
+    })
     .then((data)=>data.json())
     .then((mv)=>setMovie(mv));
   };
@@ -24,14 +30,18 @@ export function MovieDetails({}) {
 
   return (
     <div>
-      <iframe width="100%"
-        height="650"
-        src={movie.trailer}
-        title="YouTube video player"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe>
+
+<iframe
+ width="100%"
+ height="650" 
+ src={movie.trailer} 
+title="Yotube Video Player" 
+frameborder="0"
+ allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+ allowfullscreen>
+
+ </iframe>
+
       <div className="movie-detail-container">
         <div className="movie-specs">
           <h2 className="movie-name">{movie.name}</h2>

@@ -110,7 +110,7 @@ function App() {
           <Button color="inherit" onClick={() => navigate("/movies/add")}>
             Add Movies
           </Button>
-          <Button style={{marginLeft:"auto"}}>DARKMODE</Button>
+          <Button style={{ marginLeft: "auto" }}>DARKMODE</Button>
           {/* {isLoggedIn == true ?  <Button  color="inherit"  onClick={clearFun}>Logout</Button>:
              <Button
              color="inherit"
@@ -126,20 +126,49 @@ function App() {
               Sign up
             </Button>)} */}
 
-            { isLoggedIn==true?<div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-              {localStorage.getItem("user")}
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-              <li><button class="dropdown-item" onClick={clearFun}>Logout</button></li>
-            </ul>
-          </div>  : <div>
-            <Button color="inherit" onClick={()=>navigate("/login")}>Login</Button>
-            <Button color="inherit" onClick={()=>navigate("/Sign up")}>Signup</Button>
-            </div>}
+          {isLoggedIn == true ? (
+            <div class="dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDarkDropdownMenuLink"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                {localStorage.getItem("user")}
+              </a>
 
-             
-          </Toolbar>
+              <ul
+                class="dropdown-menu dropdown-menu-dark"
+                aria-labelledby="navbarDarkDropdownMenuLink"
+              >
+                <li>
+                  <button
+                    class="dropdown-item"
+                    onClick={() => navigate("/movies/add")}
+                  >
+                    Add Movie
+                  </button>
+                </li>
+                <li>
+                  <button class="dropdown-item" onClick={clearFun}>
+                    Logout
+                  </button>
+                </li>
+              </ul>
+            </div>
+          ) : (
+            <div>
+              <Button color="inherit" onClick={() => navigate("/login")}>
+                Login
+              </Button>
+              <Button color="inherit" onClick={() => navigate("/Sign up")}>
+                Signup
+              </Button>
+            </div>
+          )}
+        </Toolbar>
       </AppBar>
 
       <section className="route-container">
@@ -176,7 +205,7 @@ function NotFound() {
 }
 
 function Home() {
-  return <h1>My Name Is Aniket</h1>;
+  return <h1>Welcome to the Movie App</h1>;
 }
 
 export default App;

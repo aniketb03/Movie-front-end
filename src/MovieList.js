@@ -1,28 +1,31 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Movie } from "./Movie";
 import { useNavigate } from "react-router-dom";
 
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import CommonContext from "./context/commonContext";
 
 export function MovieList() {
   const [movieList, setMovieList] = useState([]);
 
-  // const {isLoggedIn}=useContext(CommonContext);
+  const {isLoggedIn}=useContext(CommonContext);
   const getMovies = () => {
+    if (!isLoggedIn){
+      navigate("/login");
+    }else{
     try {
       fetch("http://localhost:9000/movies", {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
+        headers: { "x-auth-token" : localStorage.getItem("x-auth-token"),
         },
       })
         .then((data) => data.json())
         .then((mvs) => setMovieList(mvs));
     } catch (err) {
       console.error(err);
-    }
+    }}
   };
   useEffect(() => getMovies(), []);
 
