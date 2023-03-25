@@ -6,31 +6,32 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CommonContext from "./context/commonContext";
+import { API } from "./global";
 
 export function MovieList() {
   const [movieList, setMovieList] = useState([]);
 
-  const {isLoggedIn}=useContext(CommonContext);
+  const { isLoggedIn } = useContext(CommonContext);
   const getMovies = () => {
-    if (!isLoggedIn){
+    if (!isLoggedIn) {
       navigate("/login");
-    }else{
-    try {
-      fetch("http://localhost:9000/movies", {
-        method: "GET",
-        headers: { "x-auth-token" : localStorage.getItem("x-auth-token"),
-        },
-      })
-        .then((data) => data.json())
-        .then((mvs) => setMovieList(mvs));
-    } catch (err) {
-      console.error(err);
-    }}
+    } else {
+      try {
+        fetch(`${API}/movies`, {
+          method: "GET",
+          headers: { "x-auth-token": localStorage.getItem("x-auth-token") },
+        })
+          .then((data) => data.json())
+          .then((mvs) => setMovieList(mvs));
+      } catch (err) {
+        console.error(err);
+      }
+    }
   };
   useEffect(() => getMovies(), []);
 
   const deleteMovie = (id) => {
-    fetch(`http://localhost:9000/movies/${id}`, {
+    fetch(`${API}/movies/${id}`, {
       method: "DELETE",
     }).then(() => getMovies());
   };
