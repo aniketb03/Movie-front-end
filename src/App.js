@@ -163,7 +163,7 @@ function App() {
               <Button color="inherit" onClick={() => navigate("/login")}>
                 Login
               </Button>
-              <Button color="inherit" onClick={() => navigate("/Sign up")}>
+              <Button color="inherit" onClick={() => navigate("/Signup")}>
                 Signup
               </Button>
             </div>
