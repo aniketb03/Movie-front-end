@@ -107,9 +107,14 @@ function App() {
           <Button color="inherit" onClick={() => navigate("/movies")}>
             Movies List
           </Button>
-          <Button color="inherit" onClick={() => navigate("/movies/add")}>
-            Add Movies
-          </Button>
+
+          {isLoggedIn == true ? (
+            <Button color="inherit" onClick={() => navigate("/movies/add")}>
+              Add Movies
+            </Button>
+          ) : (
+            false
+          )}
           <Button style={{ marginLeft: "auto" }}>DARKMODE</Button>
           {/* {isLoggedIn == true ?  <Button  color="inherit"  onClick={clearFun}>Logout</Button>:
              <Button

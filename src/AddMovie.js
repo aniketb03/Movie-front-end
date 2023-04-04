@@ -37,18 +37,14 @@ export function AddMovie() {
   const navigate = useNavigate();
   const { isLoggedIn } = useContext(CommonContext);
   const addMovie = (newMovie) => {
-    if (!isLoggedIn) {
-      navigate("/login");
-    } else {
-      fetch(`${API}/movies`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newMovie),
-      }).then((res) => navigate("/movies"));
-      console.log(newMovie);
-    }
+    fetch(`${API}/movies`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newMovie),
+    }).then((res) => navigate("/movies"));
+    console.log(newMovie);
   };
 
   const { handleSubmit, values, handleChange, handleBlur, errors, touched } =
