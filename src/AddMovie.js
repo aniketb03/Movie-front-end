@@ -3,6 +3,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
+import CommonContext from "./context/commonContext";
 import * as yup from "yup";
 import { API } from "./global";
 
@@ -34,15 +35,20 @@ export function AddMovie() {
   // };
 
   const navigate = useNavigate();
+  const { isLoggedIn } = useContext(CommonContext);
   const addMovie = (newMovie) => {
-    fetch(`${API}/movies`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newMovie),
-    }).then((res) => navigate("/movies"));
-    console.log(newMovie);
+    if (!isLoggedIn) {
+      navigate("/login");
+    } else {
+      fetch(`${API}/movies`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newMovie),
+      }).then((res) => navigate("/movies"));
+      console.log(newMovie);
+    }
   };
 
   const { handleSubmit, values, handleChange, handleBlur, errors, touched } =
